@@ -1,0 +1,42 @@
+version: '3'
+networks:
+  api-network:
+    driver: bridge
+
+services:
+
+  segmentation:
+    stdin_open: true
+    tty: true
+    build:
+      context: ./segmentation
+      dockerfile: Dockerfile
+    command: python segmentation-app.py
+    ports:
+      - "9001:9001"
+    networks:
+      - api-network
+    environment:
+      - PORT=9001
+    volumes:
+      - ./data:/home/node/app
+
+  conversion:
+    stdin_open: true
+    tty: true
+    build:
+      context: ./conversion
+      dockerfile: Dockerfile
+    command: python conversion.py
+    ports:
+      - "9002:9002"
+    networks:
+      - api-network
+    environment:
+      - PORT=9002
+    volumes:
+      - ./data:/home/node/app
+
+volumes:
+  data:
+    external: true
