@@ -11,12 +11,13 @@ data_directory = '../data'  # Directory relative to the script where JSON files 
 @app.route('/process_json_to_image', methods=['POST'])
 def process_json_to_image():
     try:
-        json_filename = request.args.get('filename')
-        if not json_filename:
-            return "Filename parameter is missing", 400
+        # json_filename = request.args.get('filename')
+        # if not json_filename:
+            # return "Filename parameter is missing", 400
 
+        json_filename = '/home/app/data/mask_IMG05-13-04-2023(DAY2).json'  # Static filename for simplicity
         json_path = os.path.join(data_directory, json_filename)
-        
+    
         if not os.path.exists(json_path):
             return f"No such file: {json_path}", 404
 
@@ -45,4 +46,7 @@ def process_json_to_image():
         return str(e), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host='0.0.0.0', port=9002)
+
+
+
